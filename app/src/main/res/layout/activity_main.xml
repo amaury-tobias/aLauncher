@@ -58,10 +58,10 @@
         android:divider="@null"
         android:dividerHeight="0dp"
 
-        android:fastScrollAlwaysVisible="false"
+        android:fastScrollAlwaysVisible="true"
         android:fastScrollEnabled="true"
         android:scrollbarAlwaysDrawVerticalTrack="true"
-        android:scrollbarStyle="insideInset"
+        android:scrollbarStyle="outsideOverlay"
         android:scrollbars="vertical"
         android:verticalScrollbarPosition="right"
         app:layout_constraintBottom_toBottomOf="parent"
