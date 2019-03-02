@@ -4,25 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:clickable="false"
     android:orientation="vertical">
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/tvAppName"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="left"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/tvNombreApp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:fontFamily="sans-serif-condensed-medium"
-            android:padding="10sp"
-            android:textAlignment="viewStart"
-            android:textColor="@color/colorTextLauncher"
-            android:textSize="40sp"
-            tools:text="Applicacion" />
-    </LinearLayout>
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fontFamily="sans-serif-condensed-medium"
+        android:padding="20dp"
+        android:textAlignment="viewStart"
+        android:textColor="@color/colorTextLauncher"
+        android:textSize="30sp"
+        tools:text="Applicacion" />
 
 </LinearLayout>

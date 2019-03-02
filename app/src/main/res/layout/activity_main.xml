@@ -7,7 +7,7 @@
     tools:context=".MainActivity">
 
     <TextClock
-        android:id="@+id/tcHora"
+        android:id="@+id/tcHour"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -17,29 +17,57 @@
         android:format12Hour="hh:mm"
         android:format24Hour="hh:mm"
         android:textColor="@color/colorTextLauncher"
-        android:textSize="80sp"
+        android:textSize="60sp"
+        app:layout_constraintBottom_toTopOf="@+id/tvMes"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed"
         tools:text="00:00" />
+
+    <TextView
+        android:id="@+id/tvMes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:fontFamily="sans-serif-condensed-light"
+        android:textColor="@color/colorTextLauncher"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/lvApps"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tcHour"
+        tools:text="MESES" />
 
     <ListView
         android:id="@+id/lvApps"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="70dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:cacheColorHint="@android:color/darker_gray"
+        android:layout_marginBottom="55dp"
+
+        android:requiresFadingEdge="vertical"
+        android:fadingEdgeLength="48dp"
+
+        android:background="@android:color/transparent"
         android:divider="@null"
-
         android:dividerHeight="0dp"
-        android:listSelector="@android:color/darker_gray"
 
+        android:fastScrollAlwaysVisible="false"
+        android:fastScrollEnabled="true"
+        android:scrollbarAlwaysDrawVerticalTrack="true"
+        android:scrollbarStyle="insideInset"
+        android:scrollbars="vertical"
+        android:verticalScrollbarPosition="right"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tcHora" />
+        app:layout_constraintTop_toBottomOf="@+id/tvMes" />
 
 </android.support.constraint.ConstraintLayout>
