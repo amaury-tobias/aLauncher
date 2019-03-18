@@ -22,12 +22,12 @@ public class PackageListAdapter extends BaseAdapter {
     private PackageManager packageManager;
     private List<AppInfo> appsList;
 
-    public PackageListAdapter(Context context) {
+    PackageListAdapter(Context context) {
         packageManager = context.getPackageManager();
         updateList();
     }
 
-    public void updateList() {
+    void updateList() {
         appsList = new ArrayList<>();
 
         Intent i = new Intent(Intent.ACTION_MAIN, null);
@@ -39,7 +39,6 @@ public class PackageListAdapter extends BaseAdapter {
             AppInfo app = new AppInfo();
             app.setLabel(ri.loadLabel(packageManager));
             app.setPackageName(ri.activityInfo.packageName);
-            app.setIcon(ri.activityInfo.loadIcon(packageManager));
             appsList.add(app);
         }
 

@@ -9,10 +9,16 @@ public class PackageBroadcastReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         String action = intent.getAction();
-        if (Intent.ACTION_PACKAGE_ADDED.equals(action) || Intent.ACTION_PACKAGE_REMOVED.equals(action)) {
-            MainActivity instance = MainActivity.getInstance();
-            if (instance != null)
-                instance.updateAdapter();
+        MainActivity instance = ((MainActivity)context);
+        if (instance != null && action != null) {
+            switch (action) {
+                case Intent.ACTION_PACKAGE_ADDED:
+                    instance.updateAdapter();
+                    break;
+                case Intent.ACTION_PACKAGE_REMOVED:
+                    instance.updateAdapter();
+                    break;
+            }
         }
     }
 }
