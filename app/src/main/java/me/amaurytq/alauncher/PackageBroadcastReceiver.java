@@ -11,7 +11,8 @@ public class PackageBroadcastReceiver extends BroadcastReceiver {
         String action = intent.getAction();
         if (Intent.ACTION_PACKAGE_ADDED.equals(action) || Intent.ACTION_PACKAGE_REMOVED.equals(action)) {
             MainActivity instance = MainActivity.getInstance();
-            instance.updateAdapter();
+            if (instance != null)
+                instance.updateAdapter();
         }
     }
 }
