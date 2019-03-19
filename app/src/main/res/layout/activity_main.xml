@@ -40,7 +40,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-condensed-medium"
-            android:format12Hour="h:mm"
+            android:format12Hour="EE dd"
             android:format24Hour="EE dd"
             android:textAlignment="textStart"
             android:textAllCaps="true"
