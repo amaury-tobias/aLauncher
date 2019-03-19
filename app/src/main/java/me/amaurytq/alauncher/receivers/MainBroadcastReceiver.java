@@ -1,22 +1,25 @@
-package me.amaurytq.alauncher;
+package me.amaurytq.alauncher.receivers;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-public class PackageBroadcastReceiver extends BroadcastReceiver {
+import me.amaurytq.alauncher.MainActivity;
+
+public class MainBroadcastReceiver extends BroadcastReceiver {
+
 
     @Override
     public void onReceive(Context context, Intent intent) {
         String action = intent.getAction();
-        MainActivity instance = ((MainActivity)context);
-        if (instance != null && action != null) {
+        if (action != null) {
+            Intent i;
             switch (action) {
                 case Intent.ACTION_PACKAGE_ADDED:
-                    instance.updateAdapter();
+                    MainActivity.updateAdapter();
                     break;
                 case Intent.ACTION_PACKAGE_REMOVED:
-                    instance.updateAdapter();
+                    MainActivity.updateAdapter();
                     break;
             }
         }

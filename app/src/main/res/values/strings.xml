@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">A Launcher</string>
+    <string name="settings_button">Settings Button</string>
 </resources>

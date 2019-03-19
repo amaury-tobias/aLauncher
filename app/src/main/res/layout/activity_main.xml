@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     tools:context=".MainActivity">
 
     <LinearLayout
@@ -34,15 +35,21 @@
             android:textStyle="bold"
             tools:text="14:30" />
 
-        <TextView
-            android:id="@+id/tvMes"
+        <TextClock
+            android:id="@+id/tcMonth"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-condensed-medium"
+            android:format12Hour="h:mm"
+            android:format24Hour="EE dd"
             android:textAlignment="textStart"
+            android:textAllCaps="true"
             android:textColor="@color/colorTextLauncher"
-            android:textSize="55sp"
+            android:textSize="60sp"
+            android:textStyle="bold"
             tools:text="DOM 17" />
+
+
     </LinearLayout>
 
     <ListView
@@ -58,7 +65,7 @@
 
         android:divider="@null"
         android:dividerHeight="0dp"
-        android:fadingEdgeLength="48dp"
+        android:fadingEdgeLength="50dp"
 
         android:fastScrollAlwaysVisible="true"
         android:fastScrollEnabled="true"

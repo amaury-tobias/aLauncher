@@ -22,13 +22,14 @@ public class PackageListAdapter extends BaseAdapter {
     private PackageManager packageManager;
     private List<AppInfo> appsList;
 
-    PackageListAdapter(Context context) {
+    public PackageListAdapter(Context context) {
         packageManager = context.getPackageManager();
+        appsList = new ArrayList<>();
         updateList();
     }
 
     void updateList() {
-        appsList = new ArrayList<>();
+        appsList.clear();
 
         Intent i = new Intent(Intent.ACTION_MAIN, null);
         i.addCategory(Intent.CATEGORY_LAUNCHER);
@@ -69,7 +70,7 @@ public class PackageListAdapter extends BaseAdapter {
     public View getView(final int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
             LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-            convertView = inflater.inflate(R.layout.launch_item, null);
+            convertView = inflater.inflate(R.layout.application_item, null);
         }
 
         convertView.setOnClickListener(new View.OnClickListener() {
