@@ -1,4 +1,25 @@
 <resources>
-    <string name="app_name">A Launcher</string>
-    <string name="settings_button">Settings Button</string>
+    <string name="app_name">a Launcher</string>
+
+    <string name="title_activity_welcome">Home Screen</string>
+    <string name="next">NEXT</string>
+    <string name="skip">SKIP</string>
+    <string name="start">GOT IT</string>
+
+    <string name="slide_1_title">Leer Almacenamiento</string>
+    <string name="slide_1_desc">Utilizo este permiso para poder leer tu fondo de pantalla y cambiar el color de la fecha</string>
+
+    <string name="slide_2_title">Title 2</string>
+    <string name="slide_2_desc">Description 2</string>
+
+    <string name="slide_3_title">Title 3</string>
+    <string name="slide_3_desc">Description 3</string>
+
+    <string name="slide_4_title">Title 4</string>
+    <string name="slide_4_desc">Description 4</string>
+
+    <string name="play_again_desc">To see the welcome slider again, goto Settings -> apps -> welcome slider -> clear data</string>
+    <string name="play_again">Play Again</string>
+
+    <string name="setting_wallpaper">Wallpaper</string>
 </resources>

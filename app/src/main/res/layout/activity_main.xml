@@ -18,7 +18,9 @@
         android:orientation="vertical"
         android:paddingStart="15dp"
         android:paddingEnd="15dp"
+        app:layout_constraintBottom_toTopOf="@+id/containerFrameMain"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -40,7 +42,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-condensed-medium"
-            android:format12Hour="h:mm"
+            android:format12Hour="EE dd"
             android:format24Hour="EE dd"
             android:textAlignment="textStart"
             android:textAllCaps="true"
@@ -52,33 +54,20 @@
 
     </LinearLayout>
 
-    <ListView
-        android:id="@+id/lvApps"
+    <FrameLayout
+        android:id="@+id/containerFrameMain"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-
-        android:layout_marginBottom="55dp"
-        android:background="@android:color/transparent"
-
-        android:divider="@null"
-        android:dividerHeight="0dp"
-        android:fadingEdgeLength="50dp"
-
-        android:fastScrollAlwaysVisible="true"
-        android:fastScrollEnabled="true"
-        android:requiresFadingEdge="vertical"
-        android:scrollbarAlwaysDrawVerticalTrack="true"
-        android:scrollbarStyle="outsideOverlay"
-        android:scrollbars="vertical"
-        android:verticalScrollbarPosition="right"
+        android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearTop"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/linearTop">
+
+    </FrameLayout>
 
 </android.support.constraint.ConstraintLayout>
