@@ -23,13 +23,12 @@ public class ApplicationContent {
     }
 
     public static void fillItemList() {
-        ITEMS.clear();
+        if (_packageManager == null) return;
 
+        ITEMS.clear();
         Intent i = new Intent(Intent.ACTION_MAIN, null);
         i.addCategory(Intent.CATEGORY_LAUNCHER);
-
         List<ResolveInfo> applicationResolver = _packageManager.queryIntentActivities(i, 0);
-
         for (ResolveInfo ri : applicationResolver) {
             ApplicationItem applicationItem = new ApplicationItem(
                     (String) ri.loadLabel(_packageManager),
