@@ -55,7 +55,6 @@ public class AppListFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        //ApplicationContent.fillItemList();
         if (null != _adapter)
             _adapter.notifyDataSetChanged();
         if (context instanceof OnListFragmentInteractionListener) {

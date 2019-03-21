@@ -18,16 +18,13 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.view.GestureDetector;
-import android.view.MotionEvent;
-import android.view.View;
+import android.util.Log;
 import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.TextClock;
 import android.widget.Toast;
 
 import me.amaurytq.alauncher.fragments.AppListFragment;
-import me.amaurytq.alauncher.fragments.MyAppListRecyclerViewAdapter;
 import me.amaurytq.alauncher.fragments.SettingsFragment;
 import me.amaurytq.alauncher.fragments.content.ApplicationContent;
 import me.amaurytq.alauncher.fragments.models.ApplicationItem;
@@ -136,8 +133,10 @@ public class MainActivity extends AppCompatActivity implements
         try {
             Intent i = new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
             i.setData(Uri.parse("package:".concat(item.packageName)));
-            getApplicationContext().startActivity(i);
+            MainActivity.this.startActivity(i);
         } catch (Exception error) {
+            Log.e("EE", error.getMessage());
+            error.printStackTrace();
             Toast.makeText(MainActivity.this, "La aplicación no se encuentra instalada", Toast.LENGTH_SHORT).show();
             ApplicationContent.fillItemList();
             AppListFragment._adapter.notifyDataSetChanged();
