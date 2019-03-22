@@ -5,6 +5,7 @@
 
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.SET_WALLPAPER" />
+
     <uses-permission-sdk-23 android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
@@ -17,13 +18,13 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
 
-        <!--Welcome Activity-->
+        <!-- Welcome Activity -->
         <activity
             android:name=".WelcomeActivity"
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait" />
 
-        <!--Main Activity-->
+         <!-- Main Activity -->
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait">
@@ -35,7 +36,6 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-
     </application>
 
 </manifest>

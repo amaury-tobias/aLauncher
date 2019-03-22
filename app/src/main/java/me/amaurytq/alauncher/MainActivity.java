@@ -8,11 +8,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -23,6 +25,9 @@ import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.TextClock;
 import android.widget.Toast;
+
+import com.getkeepsafe.taptargetview.TapTarget;
+import com.getkeepsafe.taptargetview.TapTargetView;
 
 import me.amaurytq.alauncher.fragments.AppListFragment;
 import me.amaurytq.alauncher.fragments.SettingsFragment;
@@ -80,13 +85,39 @@ public class MainActivity extends AppCompatActivity implements
 
         if (prefManager.isFirstTimeLaunch()) {
             startActivity(new Intent(MainActivity.this, WelcomeActivity.class));
-            prefManager.setFirstTimeLaunch(false);
         }
+
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
         changeFragment(APP_LIST_FRAGMENT, APP_LIST_TAG);
 
         initialize();
+        String description = "El color de la fecha se actualiza en base a los colores de tu wallpaper";
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+            description = description.concat(", pero para esto necesitamos tu permiso para acceder al almacenamiento interno, presiona la fecha para darnos ese permiso");
+        else
+            description = "";
+
+        if (prefManager.isFirstTimeLaunch()) {
+            TapTargetView.showFor(this,
+                    TapTarget.forView(tcMonth,
+                            "Color Personalizado",
+                            description)
+                            .textTypeface(Typeface.SANS_SERIF)
+                            .cancelable(false)
+                            .targetRadius(85),
+                    new TapTargetView.Listener() {
+                        @Override
+                        public void onTargetClick(TapTargetView view) {
+                            ActivityCompat.requestPermissions(MainActivity.this,
+                                    new String[] {Manifest.permission.READ_EXTERNAL_STORAGE},
+                                    1);
+                            super.onTargetClick(view);
+                        }
+                    });
+            //prefManager.setFirstTimeLaunch(false);
+        }
+
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -97,6 +128,7 @@ public class MainActivity extends AppCompatActivity implements
         sharedPreferences = getSharedPreferences("prefs", MODE_PRIVATE);
         //TextClock tcHour = findViewById(R.id.tcHour);
         tcMonth = findViewById(R.id.tcMonth);
+
         updateColors();
         LinearLayout linearTop = findViewById(R.id.linearTop);
         linearTop.setOnTouchListener(new OnSwipeTouchListener(MainActivity.this){
