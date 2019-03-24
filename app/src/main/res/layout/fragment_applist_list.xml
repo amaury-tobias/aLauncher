@@ -1,33 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/swipeApplicationList"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/ApplicationList"
-        android:name="me.amaurytq.alauncher.fragments.AppListFragment"
-        android:layout_width="match_parent"
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:layout_width="match_parent"
+            android:id="@+id/swipeApplicationList"
+            android:layout_height="match_parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/ApplicationList"
+                android:name="me.amaurytq.alauncher.fragments.AppListFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                tools:context=".fragments.AppListFragment"
+                tools:listitem="@layout/application_item"
+
+                android:layout_marginBottom="55dp"
+                android:layout_marginTop="10dp"
+
+
+                android:requiresFadingEdge="vertical"
+                android:fadingEdgeLength="50dp"
+                />
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <com.reddit.indicatorfastscroll.FastScrollerView
+        android:id="@+id/fastscroller"
+        android:layout_width="32dp"
         android:layout_height="match_parent"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        app:layoutManager="LinearLayoutManager"
-        tools:context=".fragments.AppListFragment"
-        tools:listitem="@layout/application_item"
-
-        android:layout_marginBottom="55dp"
-        android:layout_marginTop="10dp"
-
-        app:fastScrollEnabled="true"
-        app:fastScrollHorizontalThumbDrawable="@drawable/thumb_drawable"
-        app:fastScrollHorizontalTrackDrawable="@drawable/line_drawable"
-        app:fastScrollVerticalThumbDrawable="@drawable/thumb_drawable"
-        app:fastScrollVerticalTrackDrawable="@drawable/line_drawable"
-
-        android:scrollbarSize="80dp"
-
-        android:requiresFadingEdge="vertical"
-        android:fadingEdgeLength="50dp"
+        android:layout_alignParentEnd="true"
+        android:textColor="@color/colorTextLauncher"
         />
-</android.support.v4.widget.SwipeRefreshLayout>
+    <com.reddit.indicatorfastscroll.FastScrollerThumbView
+        android:id="@+id/fastscroller_thumb"
+        android:layout_width="40dp"
+        android:layout_height="match_parent"
+        android:layout_alignBottom="@+id/fastscroller"
+        android:layout_alignTop="@+id/fastscroller"
+        android:layout_marginEnd="16dp"
+        android:layout_toStartOf="@+id/fastscroller"
+        />
+</RelativeLayout>

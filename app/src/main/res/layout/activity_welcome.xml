@@ -6,13 +6,34 @@
     android:layout_height="match_parent"
     tools:context=".WelcomeActivity">
 
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/animation_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleType="centerCrop"
+        android:layout_centerInParent="true"
+        app:lottie_rawRes="@raw/anim"
+        app:lottie_loop="true"
+        app:lottie_autoPlay="true"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_below="@+id/animation_view"
+        android:layout_centerInParent="true"
+
+        android:fontFamily="sans-serif-condensed-medium"
+        android:text="aLauncher"
+        android:textColor="@color/colorTextLauncher"
+        android:textSize="36sp" />
 
     <Button
         android:id="@+id/btn_next"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
         android:background="@null"
         android:text="@string/next"
         android:textColor="@android:color/white" />

@@ -13,13 +13,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Vibrator;
-import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Window;
 import android.widget.LinearLayout;
@@ -29,6 +22,13 @@ import android.widget.Toast;
 import com.getkeepsafe.taptargetview.TapTarget;
 import com.getkeepsafe.taptargetview.TapTargetView;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import me.amaurytq.alauncher.fragments.AppListFragment;
 import me.amaurytq.alauncher.fragments.SettingsFragment;
 import me.amaurytq.alauncher.fragments.content.ApplicationContent;
@@ -40,19 +40,20 @@ public class MainActivity extends AppCompatActivity implements
 
     private TextClock tcMonth;
     private SharedPreferences sharedPreferences;
-    private static final AppListFragment APP_LIST_FRAGMENT = new AppListFragment();
-    private static final SettingsFragment SETTINGS_FRAGMENT = new SettingsFragment();
 
     private static final String APP_LIST_TAG = "appList";
     private static final String SETTINGS_TAG = "settings";
 
+    private AppListFragmentManager appListFragmentManager;
+
     private void changeFragment(Fragment newFragment, String tag) {
         FragmentManager fm = getSupportFragmentManager();
-
         Fragment currentFragment = fm.findFragmentByTag(tag);
-        if (currentFragment != null && currentFragment.isVisible()) {
-            return;
-        }
+
+        if (currentFragment != null && currentFragment.isVisible()) return;
+
+        if (newFragment instanceof AppListFragmentManager)
+            appListFragmentManager = (AppListFragmentManager) newFragment;
 
         FragmentTransaction ft = fm.beginTransaction();
         ft.setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit);
@@ -76,6 +77,7 @@ public class MainActivity extends AppCompatActivity implements
         }
         int color = sharedPreferences.getInt("color", Color.WHITE);
         tcMonth.setTextColor(color);
+        appListFragmentManager.updateColor(color);
     }
 
     @Override
@@ -86,17 +88,18 @@ public class MainActivity extends AppCompatActivity implements
         if (prefManager.isFirstTimeLaunch()) {
             startActivity(new Intent(MainActivity.this, WelcomeActivity.class));
         }
-
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
-        changeFragment(APP_LIST_FRAGMENT, APP_LIST_TAG);
+        sharedPreferences = getSharedPreferences("prefs", MODE_PRIVATE);
+        AppListFragment appListFragment = AppListFragment.newInstance(sharedPreferences.getInt("color", Color.WHITE));
+        changeFragment(appListFragment, APP_LIST_TAG);
+        appListFragmentManager = appListFragment;
 
         initialize();
+
         String description = "El color de la fecha se actualiza en base a los colores de tu wallpaper";
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-            description = description.concat(", pero para esto necesitamos tu permiso para acceder al almacenamiento interno, presiona la fecha para darnos ese permiso");
-        else
-            description = "";
+            description = description.concat(", pero para esto necesitamos tu permiso para hacerlo, presiona la fecha para darnos ese permiso");
 
         if (prefManager.isFirstTimeLaunch()) {
             TapTargetView.showFor(this,
@@ -125,8 +128,6 @@ public class MainActivity extends AppCompatActivity implements
         ApplicationContent.setPackageManager(this);
         ApplicationContent.fillItemList();
 
-        sharedPreferences = getSharedPreferences("prefs", MODE_PRIVATE);
-        //TextClock tcHour = findViewById(R.id.tcHour);
         tcMonth = findViewById(R.id.tcMonth);
 
         updateColors();
@@ -134,12 +135,13 @@ public class MainActivity extends AppCompatActivity implements
         linearTop.setOnTouchListener(new OnSwipeTouchListener(MainActivity.this){
             public void onSwipeLeft() {
                 FragmentManager fm = getSupportFragmentManager();
-
                 Fragment currentFragment = fm.findFragmentByTag(SETTINGS_TAG);
                 if (currentFragment != null && currentFragment.isVisible())
-                    changeFragment(APP_LIST_FRAGMENT, APP_LIST_TAG);
+                    changeFragment(
+                            AppListFragment.newInstance(sharedPreferences.getInt("color", Color.WHITE))
+                            , APP_LIST_TAG);
                 else
-                    changeFragment(SETTINGS_FRAGMENT, SETTINGS_TAG);
+                    changeFragment(new SettingsFragment(), SETTINGS_TAG);
             }
         });
     }
@@ -153,7 +155,7 @@ public class MainActivity extends AppCompatActivity implements
         } catch (Exception error) {
             Toast.makeText(MainActivity.this, "La aplicación no se encuentra instalada", Toast.LENGTH_SHORT).show();
             ApplicationContent.fillItemList();
-            AppListFragment._adapter.notifyDataSetChanged();
+            appListFragmentManager.updateAdapter();
         }
     }
 
@@ -171,7 +173,7 @@ public class MainActivity extends AppCompatActivity implements
             error.printStackTrace();
             Toast.makeText(MainActivity.this, "La aplicación no se encuentra instalada", Toast.LENGTH_SHORT).show();
             ApplicationContent.fillItemList();
-            AppListFragment._adapter.notifyDataSetChanged();
+            appListFragmentManager.updateAdapter();
         }
     }
 
@@ -179,7 +181,7 @@ public class MainActivity extends AppCompatActivity implements
     public void onSwipeRefreshAppList() {
         updateColors();
         ApplicationContent.fillItemList();
-        AppListFragment._adapter.notifyDataSetChanged();
+        appListFragmentManager.updateAdapter();
     }
 
     private static final int RESULT_SELECT_WALLPAPER = 222;
@@ -207,12 +209,17 @@ public class MainActivity extends AppCompatActivity implements
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                         if (!manager.isSetWallpaperAllowed() && !manager.isWallpaperSupported())return;
                         Intent intent = new Intent(manager.getCropAndSetWallpaperIntent(imageUri));
-                        startActivity(intent);
+                        startActivityForResult(intent, 333);
                     } else {
                         Intent intent = new Intent(manager.getCropAndSetWallpaperIntent(imageUri));
                         startActivity(intent);
                     }
-                    changeFragment(APP_LIST_FRAGMENT, APP_LIST_TAG);
+                    changeFragment(
+                            AppListFragment.newInstance(sharedPreferences.getInt("color", Color.WHITE))
+                            , APP_LIST_TAG);
+                    break;
+                case 333:
+                    updateColors();
                     break;
             }
         }
