@@ -5,29 +5,28 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeApplicationList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/ApplicationList"
+            android:name="me.amaurytq.alauncher.fragments.AppListFragment"
             android:layout_width="match_parent"
-            android:id="@+id/swipeApplicationList"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="55dp"
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/ApplicationList"
-                android:name="me.amaurytq.alauncher.fragments.AppListFragment"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                tools:context=".fragments.AppListFragment"
-                tools:listitem="@layout/application_item"
-
-                android:layout_marginBottom="55dp"
-                android:layout_marginTop="10dp"
+            android:fadingEdgeLength="60dp"
+            android:requiresFadingEdge="vertical"
 
 
-                android:requiresFadingEdge="vertical"
-                android:fadingEdgeLength="50dp"
-                />
-        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+            tools:context=".fragments.AppListFragment"
+            tools:listitem="@layout/application_item" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <com.reddit.indicatorfastscroll.FastScrollerView
         android:id="@+id/fastscroller"

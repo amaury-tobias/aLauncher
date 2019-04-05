@@ -5,7 +5,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.futuremind.recyclerviewfastscroll.SectionTitleProvider;
 
 import java.util.List;
 
@@ -14,8 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import me.amaurytq.alauncher.R;
 import me.amaurytq.alauncher.fragments.models.ApplicationItem;
 
-public class MyAppListRecyclerViewAdapter extends RecyclerView.Adapter<MyAppListRecyclerViewAdapter.ViewHolder>
-        implements SectionTitleProvider {
+public class MyAppListRecyclerViewAdapter extends RecyclerView.Adapter<MyAppListRecyclerViewAdapter.ViewHolder> {
 
     private final List<ApplicationItem> mValues;
     private final AppListFragment.OnListFragmentInteractionListener mListener;
@@ -61,11 +59,6 @@ public class MyAppListRecyclerViewAdapter extends RecyclerView.Adapter<MyAppList
     @Override
     public int getItemCount() {
         return mValues.size();
-    }
-
-    @Override
-    public String getSectionTitle(int position) {
-        return mValues.get(position).packageLabel.substring(0, 1);
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
