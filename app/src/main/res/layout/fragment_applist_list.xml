@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeApplicationList"
@@ -16,11 +16,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="55dp"
 
             android:fadingEdgeLength="60dp"
+            android:fadingEdge="vertical"
             android:requiresFadingEdge="vertical"
 
 
@@ -32,16 +33,16 @@
         android:id="@+id/fastscroller"
         android:layout_width="32dp"
         android:layout_height="match_parent"
-        android:layout_alignParentEnd="true"
         android:textColor="@color/colorTextLauncher"
+
+        app:layout_constraintEnd_toEndOf="parent"
         />
     <com.reddit.indicatorfastscroll.FastScrollerThumbView
         android:id="@+id/fastscroller_thumb"
         android:layout_width="40dp"
         android:layout_height="match_parent"
-        android:layout_alignBottom="@+id/fastscroller"
-        android:layout_alignTop="@+id/fastscroller"
         android:layout_marginEnd="16dp"
-        android:layout_toStartOf="@+id/fastscroller"
+
+        app:layout_constraintEnd_toStartOf="@+id/fastscroller"
         />
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

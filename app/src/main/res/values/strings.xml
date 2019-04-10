@@ -5,12 +5,10 @@
     <string name="next">LISTO</string>
     <string name="start">LOTENGO</string>
 
-
-    <string name="slide_2_title">Title 2</string>
-    <string name="slide_2_desc">Description 2</string>
-
     <string name="setting_wallpaper">Wallpaper</string>
+    <string name="setting_theme">Auto Color</string>
+    <string name="setting_color_h">Color 1</string>
+    <string name="setting_color_b">Color 2</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

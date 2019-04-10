@@ -8,11 +8,45 @@
     android:padding="30dp"
     tools:context=".fragments.SettingsFragment">
 
+    <Switch
+        android:id="@+id/switch_auto_theme"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-medium"
+        android:padding="10dp"
+        android:text="@string/setting_theme"
+        android:textColor="@color/colorTextLauncher"
+        android:textSize="30sp"
+        android:thumbTint="@color/colorPrimary"
+        android:track="@drawable/line" />
+
     <TextView
         android:id="@+id/settingWallpaper"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-medium"
+        android:padding="10dp"
         android:text="@string/setting_wallpaper"
+        android:textColor="@color/colorTextLauncher"
+        android:textSize="30sp" />
+
+    <TextView
+        android:id="@+id/settingColorH"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-medium"
+        android:padding="10dp"
+        android:text="@string/setting_color_h"
+        android:textColor="@color/colorTextLauncher"
+        android:textSize="30sp" />
+
+    <TextView
+        android:id="@+id/settingColorB"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-medium"
+        android:padding="10dp"
+        android:text="@string/setting_color_b"
         android:textColor="@color/colorTextLauncher"
         android:textSize="30sp" />
 

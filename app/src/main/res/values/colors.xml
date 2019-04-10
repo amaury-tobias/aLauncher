@@ -5,6 +5,8 @@
     <color name="colorAccent">#000000</color>
     <color name="colorTextLauncher">#FFFFFF</color>
 
+    <color name="TapTargetColor">#383838</color>
+
     <!-- Screens background color-->
     <color name="bg_screen1">#000000</color>
     <color name="bg_screen2">#000000</color>

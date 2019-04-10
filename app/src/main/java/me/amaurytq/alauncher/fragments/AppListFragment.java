@@ -8,12 +8,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.Switch;
 
 import com.reddit.indicatorfastscroll.FastScrollItemIndicator;
 import com.reddit.indicatorfastscroll.FastScrollerThumbView;
 import com.reddit.indicatorfastscroll.FastScrollerView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -31,6 +33,8 @@ public class AppListFragment extends Fragment implements AppListFragmentManager 
 
     private FastScrollerView fastScrollerView;
     private FastScrollerThumbView fastScrollerThumbView;
+
+    private Switch switchDN;
 
     public static AppListFragment newInstance(int color) {
         AppListFragment fragment = new AppListFragment();
@@ -57,7 +61,11 @@ public class AppListFragment extends Fragment implements AppListFragmentManager 
         fastScrollerView = view.findViewById(R.id.fastscroller);
         fastScrollerThumbView = view.findViewById(R.id.fastscroller_thumb);
 
-        if (view instanceof RelativeLayout){
+        //switchDN = view.findViewById(R.id.switchDN);
+
+
+
+        if (view instanceof ConstraintLayout){
             final SwipeRefreshLayout refreshLayout = view.findViewById(R.id.swipeApplicationList);
             refreshLayout.setColorSchemeColors(Color.BLACK);
 
