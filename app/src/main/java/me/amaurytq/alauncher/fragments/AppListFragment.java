@@ -7,23 +7,20 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
-import android.widget.Switch;
 
 import com.reddit.indicatorfastscroll.FastScrollItemIndicator;
 import com.reddit.indicatorfastscroll.FastScrollerThumbView;
 import com.reddit.indicatorfastscroll.FastScrollerView;
 
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import me.amaurytq.alauncher.AppListFragmentManager;
 import me.amaurytq.alauncher.R;
+import me.amaurytq.alauncher.database.models.AppItem;
 import me.amaurytq.alauncher.fragments.content.ApplicationContent;
-import me.amaurytq.alauncher.fragments.models.ApplicationItem;
+import me.amaurytq.alauncher.utils.AppListFragmentManager;
 
 public class AppListFragment extends Fragment implements AppListFragmentManager {
 
@@ -33,8 +30,6 @@ public class AppListFragment extends Fragment implements AppListFragmentManager 
 
     private FastScrollerView fastScrollerView;
     private FastScrollerThumbView fastScrollerThumbView;
-
-    private Switch switchDN;
 
     public static AppListFragment newInstance(int color) {
         AppListFragment fragment = new AppListFragment();
@@ -61,38 +56,31 @@ public class AppListFragment extends Fragment implements AppListFragmentManager 
         fastScrollerView = view.findViewById(R.id.fastscroller);
         fastScrollerThumbView = view.findViewById(R.id.fastscroller_thumb);
 
-        //switchDN = view.findViewById(R.id.switchDN);
+        final SwipeRefreshLayout refreshLayout = view.findViewById(R.id.swipeApplicationList);
+        refreshLayout.setColorSchemeColors(Color.BLACK);
+        refreshLayout.setOnRefreshListener(() -> {
+            mListener.onSwipeRefreshAppList();
+            refreshLayout.setRefreshing(false);
+        });
 
-
-
-        if (view instanceof ConstraintLayout){
-            final SwipeRefreshLayout refreshLayout = view.findViewById(R.id.swipeApplicationList);
-            refreshLayout.setColorSchemeColors(Color.BLACK);
-
-            refreshLayout.setOnRefreshListener(() -> {
-                mListener.onSwipeRefreshAppList();
-                refreshLayout.setRefreshing(false);
-            });
-        }
-
-        Context context = view.getContext();
         _adapter = new MyAppListRecyclerViewAdapter(ApplicationContent.ITEMS, mListener);
-        recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
         recyclerView.setAdapter(_adapter);
 
-        fastScrollerView.setupWithRecyclerView(recyclerView, (position) -> {
-            ApplicationItem item = ApplicationContent.ITEMS.get(position);
-            return new FastScrollItemIndicator.Text(item.packageLabel.substring(0, 1).toUpperCase());
+        fastScrollerView.setupWithRecyclerView(recyclerView, position -> {
+                    AppItem item = ApplicationContent.ITEMS.get(position);
+                    return new FastScrollItemIndicator.Text(item.packageLabel.substring(0, 1).toUpperCase());
                 }
         );
         fastScrollerThumbView.setupWithFastScroller(fastScrollerView);
-        fastScrollerView.setTextColor(ColorStateList.valueOf(_color));
-        fastScrollerThumbView.setThumbColor(ColorStateList.valueOf(_color));
+
+        updateColor(_color);
+
         return view;
     }
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         if (context instanceof OnListFragmentInteractionListener)
             mListener = (OnListFragmentInteractionListener) context;
@@ -120,8 +108,8 @@ public class AppListFragment extends Fragment implements AppListFragmentManager 
     }
 
     public interface OnListFragmentInteractionListener {
-        void onClickListener(ApplicationItem item);
-        void onLongClickListener(ApplicationItem item);
+        void onClickListener(AppItem item);
+        void onLongClickListener(AppItem item);
         void onSwipeRefreshAppList();
     }
 

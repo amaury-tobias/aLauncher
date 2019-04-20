@@ -1,4 +1,4 @@
-package me.amaurytq.alauncher;
+package me.amaurytq.alauncher.utils;
 
 public interface AppListFragmentManager {
     void updateAdapter();

@@ -1,4 +1,4 @@
-package me.amaurytq.alauncher;
+package me.amaurytq.alauncher.utils;
 
 
 import android.app.WallpaperManager;
@@ -13,9 +13,9 @@ import androidx.palette.graphics.Palette;
 
 import static android.content.Context.MODE_PRIVATE;
 
-class ThemeManager {
+public class ThemeManager {
     
-    static void setColorsFromBackground(final Context context) {
+    public static void setColorsFromBackground(final Context context) {
         WallpaperManager wmInstance = WallpaperManager.getInstance(context);
 
         Drawable wallpaperDrawable = wmInstance.getDrawable();

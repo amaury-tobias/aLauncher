@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -12,8 +13,8 @@
         android:id="@+id/switch_auto_theme"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-medium"
-        android:padding="10dp"
+        android:fontFamily="sans-serif-light"
+        android:padding="15dp"
         android:text="@string/setting_theme"
         android:textColor="@color/colorTextLauncher"
         android:textSize="30sp"
@@ -24,30 +25,59 @@
         android:id="@+id/settingWallpaper"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-medium"
-        android:padding="10dp"
+        android:fontFamily="sans-serif-light"
+        android:padding="15dp"
         android:text="@string/setting_wallpaper"
         android:textColor="@color/colorTextLauncher"
         android:textSize="30sp" />
 
-    <TextView
-        android:id="@+id/settingColorH"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-medium"
-        android:padding="10dp"
-        android:text="@string/setting_color_h"
-        android:textColor="@color/colorTextLauncher"
-        android:textSize="30sp" />
+        android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/settingColorB"
+        <ImageView
+            android:id="@+id/color_1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="4"
+            android:src="@android:color/transparent" />
+
+        <TextView
+            android:id="@+id/settingColorH"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="sans-serif-light"
+            android:padding="15dp"
+            android:text="@string/setting_color_h"
+            android:textColor="@color/colorTextLauncher"
+            android:textSize="30sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-medium"
-        android:padding="10dp"
-        android:text="@string/setting_color_b"
-        android:textColor="@color/colorTextLauncher"
-        android:textSize="30sp" />
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/color_2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="4"
+            android:src="@android:color/transparent" />
+
+        <TextView
+            android:id="@+id/settingColorB"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="sans-serif-light"
+            android:padding="15dp"
+            android:text="@string/setting_color_b"
+            android:textColor="@color/colorTextLauncher"
+            android:textSize="30sp" />
+    </LinearLayout>
 
 </LinearLayout>

@@ -14,8 +14,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.provider.AlarmClock;
-import android.provider.ContactsContract;
-import android.util.Log;
 import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.TextClock;
@@ -31,10 +29,15 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import me.amaurytq.alauncher.database.models.AppItem;
+import me.amaurytq.alauncher.fragments.AppItemInfoFragment;
 import me.amaurytq.alauncher.fragments.AppListFragment;
 import me.amaurytq.alauncher.fragments.SettingsFragment;
 import me.amaurytq.alauncher.fragments.content.ApplicationContent;
-import me.amaurytq.alauncher.fragments.models.ApplicationItem;
+import me.amaurytq.alauncher.utils.AppListFragmentManager;
+import me.amaurytq.alauncher.utils.OnSwipeTouchListener;
+import me.amaurytq.alauncher.utils.PrefManager;
+import me.amaurytq.alauncher.utils.ThemeManager;
 import me.priyesh.chroma.ChromaDialog;
 import me.priyesh.chroma.ColorMode;
 
@@ -70,15 +73,15 @@ public class MainActivity extends AppCompatActivity implements
     public void onBackPressed() {}
 
     private void updateColors() {
-        if (!sharedPreferences.getBoolean(SettingsFragment.AUTO_THEME, true)) return;
+        boolean isAutoTheme = sharedPreferences.getBoolean(SettingsFragment.AUTO_THEME, true);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && isAutoTheme) {
             if (ContextCompat.checkSelfPermission(getApplicationContext(),
                     Manifest.permission.READ_EXTERNAL_STORAGE)
                     == PackageManager.PERMISSION_GRANTED) {
                 ThemeManager.setColorsFromBackground(getApplicationContext());
             }
-        } else {
+        } else if (isAutoTheme) {
             ThemeManager.setColorsFromBackground(getApplicationContext());
         }
         int color = sharedPreferences.getInt("color", Color.WHITE);
@@ -115,7 +118,7 @@ public class MainActivity extends AppCompatActivity implements
                             .textTypeface(Typeface.SANS_SERIF)
                             .outerCircleColor(R.color.TapTargetColor)
                             .cancelable(false)
-                            .targetRadius(85),
+                            .targetRadius(70),
                     new TapTargetView.Listener() {
                         @Override
                         public void onTargetClick(TapTargetView view) {
@@ -125,17 +128,22 @@ public class MainActivity extends AppCompatActivity implements
                             super.onTargetClick(view);
                         }
                     });
-            prefManager.setFirstTimeLaunch(false);
         }
-
+        prefManager.setFirstTimeLaunch(false);
     }
 
     @SuppressLint("ClickableViewAccessibility")
     private void initialize() {
         ApplicationContent.setPackageManager(this);
         ApplicationContent.fillItemList();
-
         tcMonth = findViewById(R.id.tcMonth);
+
+        tcMonth.setOnClickListener(v -> {
+            Intent calIntent = new Intent(Intent.ACTION_MAIN);
+            calIntent.addCategory(Intent.CATEGORY_APP_CALENDAR);
+            calIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(calIntent);
+        });
 
         updateColors();
         LinearLayout linearTop = findViewById(R.id.linearTop);
@@ -167,7 +175,7 @@ public class MainActivity extends AppCompatActivity implements
 
 
     @Override
-    public void onClickListener(ApplicationItem item) {
+    public void onClickListener(AppItem item) {
         try {
             Intent i = getApplicationContext().getPackageManager().getLaunchIntentForPackage(item.packageName);
             getApplicationContext().startActivity(i);
@@ -179,22 +187,10 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onLongClickListener(ApplicationItem item) {
+    public void onLongClickListener(AppItem item) {
         Vibrator vibrator = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
         vibrator.vibrate(100);
-
-        try {
-            Intent i = new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-            i.setData(Uri.parse("package:".concat(item.packageName)));
-            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            MainActivity.this.startActivity(i);
-        } catch (Exception error) {
-            Log.e("EE", error.getMessage());
-            error.printStackTrace();
-            Toast.makeText(MainActivity.this, "La aplicación no se encuentra instalada", Toast.LENGTH_SHORT).show();
-            ApplicationContent.fillItemList();
-            appListFragmentManager.updateAdapter();
-        }
+        AppItemInfoFragment.newInstance(item).show(getSupportFragmentManager(), "infoAppItem");
     }
 
     @Override

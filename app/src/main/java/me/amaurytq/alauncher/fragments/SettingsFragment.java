@@ -1,12 +1,13 @@
 package me.amaurytq.alauncher.fragments;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Switch;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -62,8 +63,11 @@ public class SettingsFragment extends Fragment {
         fragment.findViewById(R.id.settingColorB).setOnClickListener(v -> mListener.onSettingsClickListener(SETTINGS_COLOR_B));
 
         ((Switch) fragment.findViewById(R.id.switch_auto_theme)).setChecked(_autoTheme);
-        fragment.findViewById(R.id.settingColorH).setBackgroundColor(_colorH);
-        fragment.findViewById(R.id.settingColorB).setBackgroundColor(_colorB);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            ((Switch) fragment.findViewById(R.id.switch_auto_theme)).setThumbTintList(ColorStateList.valueOf(_colorH));
+        }
+        fragment.findViewById(R.id.color_1).setBackgroundColor(_colorH);
+        fragment.findViewById(R.id.color_2).setBackgroundColor(_colorB);
 
         return fragment;
     }

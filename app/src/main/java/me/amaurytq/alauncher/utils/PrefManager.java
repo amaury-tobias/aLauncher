@@ -1,4 +1,4 @@
-package me.amaurytq.alauncher;
+package me.amaurytq.alauncher.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;

@@ -1,65 +1,81 @@
 package me.amaurytq.alauncher.fragments.content;
 
 import android.content.Context;
-import android.content.Intent;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.os.Build;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
-import me.amaurytq.alauncher.fragments.models.ApplicationItem;
+import me.amaurytq.alauncher.database.models.AppItem;
 
 public class ApplicationContent {
 
-    public static final List<ApplicationItem> ITEMS = new ArrayList<>();
+    public static final List<AppItem> ITEMS = new ArrayList<>();
     private static PackageManager _packageManager;
 
     public static void setPackageManager(Context context) {
         _packageManager = context.getPackageManager();
     }
 
+    public static void fillAppItemList(List<AppItem> appItemList) {
+        ITEMS.clear();
+        ITEMS.addAll(appItemList);
+    }
+
+    public static List<AppItem> getAppItemList() {
+        if (_packageManager == null) return null;
+        List<AppItem> appItemList = new ArrayList<>();
+
+        List<ApplicationInfo> packages = _packageManager.getInstalledApplications(PackageManager.GET_META_DATA);
+
+        for (ApplicationInfo packageInfo : packages) {
+            if (_packageManager.getLaunchIntentForPackage(packageInfo.packageName) != null) {
+                AppItem appItem = new AppItem();
+                appItem.isHidden = false;
+                appItem.packageLabel = (String) packageInfo.loadLabel(_packageManager);
+                appItem.packageName = packageInfo.packageName;
+                appItem.isSystemApp = ((packageInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0);
+                addItem(appItem);
+            }
+        }
+        sortItemList();
+        return appItemList;
+    }
+
     public static void fillItemList() {
         if (_packageManager == null) return;
-
         ITEMS.clear();
-        Intent i = new Intent(Intent.ACTION_MAIN, null);
-        i.addCategory(Intent.CATEGORY_LAUNCHER);
-        List<ResolveInfo> applicationResolver = _packageManager.queryIntentActivities(i, 0);
-        for (ResolveInfo ri : applicationResolver) {
-            ApplicationItem applicationItem = new ApplicationItem(
-                    (String) ri.loadLabel(_packageManager),
-                    ri.activityInfo.packageName
-            );
-            addItem(applicationItem);
+
+        List<ApplicationInfo> packages = _packageManager.getInstalledApplications(PackageManager.GET_META_DATA);
+
+        for (ApplicationInfo packageInfo : packages) {
+            if (_packageManager.getLaunchIntentForPackage(packageInfo.packageName) != null) {
+                AppItem appItem = new AppItem();
+                appItem.isHidden = false;
+                appItem.packageLabel = (String) packageInfo.loadLabel(_packageManager);
+                appItem.packageName = packageInfo.packageName;
+                appItem.isSystemApp = ((packageInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0);
+                addItem(appItem);
+            }
         }
+
         sortItemList();
     }
 
     private static void sortItemList() {
         if (Build.VERSION.SDK_INT == Build.VERSION_CODES.N){
-            ITEMS.sort(new Comparator<ApplicationItem>() {
-                @Override
-                public int compare(ApplicationItem o1, ApplicationItem o2) {
-                    return o1.packageLabel.compareTo(o2.packageLabel);
-                }
-            });
+            ITEMS.sort((o1, o2) -> o1.packageLabel.compareTo(o2.packageLabel));
         }
         else {
-            Collections.sort(ITEMS, new Comparator<ApplicationItem>() {
-                @Override
-                public int compare(ApplicationItem o1, ApplicationItem o2) {
-                    return o1.packageLabel.compareTo(o2.packageLabel);
-                }
-            });
+            Collections.sort(ITEMS, (o1, o2) -> o1.packageLabel.compareTo(o2.packageLabel));
         }
     }
 
-    private static void addItem(ApplicationItem item) {
-        ITEMS.add(item);
+    private static void addItem(AppItem appItem) {
+        ITEMS.add(appItem);
     }
 
 }

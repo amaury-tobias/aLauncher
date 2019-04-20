@@ -9,10 +9,10 @@
 
     <LinearLayout
         android:id="@+id/linearTop"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:gravity="end"
@@ -21,31 +21,30 @@
         android:paddingEnd="15dp"
         app:layout_constraintBottom_toTopOf="@+id/containerFrameMain"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <TextClock
             android:id="@+id/tcHour"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-condensed-medium"
+            android:fontFamily="sans-serif-light"
             android:format12Hour="h:mm"
             android:format24Hour="H:mm"
             android:textColor="@color/colorTextLauncher"
-            android:textSize="55sp"
-            android:textStyle="bold"
+            android:textSize="45sp"
             tools:text="14:30" />
 
         <TextClock
             android:id="@+id/tcMonth"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-condensed-medium"
+            android:fontFamily="sans-serif-light"
             android:format12Hour="EE dd"
             android:format24Hour="EE dd"
             android:textAllCaps="true"
             android:textColor="@color/colorTextLauncher"
-            android:textSize="55sp"
-            android:textStyle="bold"
+            android:textSize="30sp"
             tools:text="DOM 17" />
     </LinearLayout>
 
@@ -59,7 +58,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
 
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="32dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
