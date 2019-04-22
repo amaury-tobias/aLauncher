@@ -23,7 +23,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            android:background="@drawable/app_item_info_bg"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:padding="8dp">
@@ -34,7 +33,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
                 android:fontFamily="sans-serif-light"
-                android:textColor="@color/colorTextLauncher"
                 android:textSize="30sp"
                 tools:text="AppName" />
 
@@ -68,7 +66,6 @@
                 android:fontFamily="sans-serif-light"
                 android:text="Ocultar (WIP)"
                 android:textAlignment="textEnd"
-                android:textColor="@color/colorTextLauncher"
                 android:textSize="20sp" />
         </LinearLayout>
 
@@ -94,7 +91,6 @@
                 android:fontFamily="sans-serif-light"
                 android:text="Renombrar (WIP)"
                 android:textAlignment="textEnd"
-                android:textColor="@color/colorTextLauncher"
                 android:textSize="20sp"
                 tools:layout_editor_absoluteX="20dp"
                 tools:layout_editor_absoluteY="20dp" />
@@ -123,7 +119,6 @@
                 android:fontFamily="sans-serif-light"
                 android:text="Desinstalar"
                 android:textAlignment="textEnd"
-                android:textColor="@color/colorTextLauncher"
                 android:textSize="20sp" />
         </LinearLayout>
 

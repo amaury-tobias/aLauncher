@@ -3,13 +3,11 @@
 
     <string name="title_activity_welcome">Welcome String</string>
     <string name="next">LISTO</string>
-    <string name="start">LOTENGO</string>
+    <string name="start">LO TENGO</string>
 
-    <string name="setting_wallpaper">Wallpaper</string>
-    <string name="setting_theme">Auto Color</string>
-    <string name="setting_color_h">Color 1</string>
-    <string name="setting_color_b">Color 2</string>
+    <string name="setting_theme">Noche/Luz</string>
+    <string name="setting_auto_color">Color Automatico</string>
+    <string name="setting_wallpaper">Fondo de Pantalla</string>
+    <string name="setting_color_h">Color Personalizado </string>
 
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="service_name">NotificationService</string>
 </resources>

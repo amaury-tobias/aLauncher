@@ -13,7 +13,6 @@
         android:fontFamily="sans-serif-light"
         android:padding="15dp"
         android:textAlignment="viewStart"
-        android:textColor="@color/colorTextLauncher"
         android:textSize="30sp"
         tools:text="Applicacion" />
 

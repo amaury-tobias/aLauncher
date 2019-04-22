@@ -1,16 +1,13 @@
 package me.amaurytq.alauncher.fragments;
 
-import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.List;
-import java.util.Optional;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 import me.amaurytq.alauncher.R;
 import me.amaurytq.alauncher.database.models.AppItem;

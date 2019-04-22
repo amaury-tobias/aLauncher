@@ -1,19 +1,34 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppThemeDark" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorAccent">@color/colorAccent</item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+
+        <item name="android:textColorPrimaryDisableOnly">@color/colorPrimary</item>
+
 
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-
         <item name="android:windowShowWallpaper">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
-
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
     </style>
+
+    <style name="AppThemeLight" parent="@style/AppThemeDark">
+        <item name="colorAccent">@color/inverseColorAccent</item>
+        <item name="colorPrimary">@color/inverseColorPrimary</item>
+        <item name="colorPrimaryDark">@color/inverseColorPrimaryDark</item>
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+
+        <item name="android:textColorPrimaryDisableOnly">@color/colorPrimaryDark</item>
+
+    </style>
+
+
+
 
 </resources>

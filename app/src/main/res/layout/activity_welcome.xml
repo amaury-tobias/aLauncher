@@ -25,7 +25,6 @@
 
         android:fontFamily="sans-serif-condensed-medium"
         android:text="aLauncher"
-        android:textColor="@color/colorTextLauncher"
         android:textSize="36sp" />
 
     <Button

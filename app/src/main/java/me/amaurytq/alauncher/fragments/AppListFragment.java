@@ -20,16 +20,12 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import me.amaurytq.alauncher.R;
 import me.amaurytq.alauncher.database.models.AppItem;
 import me.amaurytq.alauncher.fragments.content.ApplicationContent;
-import me.amaurytq.alauncher.utils.AppListFragmentManager;
 
-public class AppListFragment extends Fragment implements AppListFragmentManager {
+public class AppListFragment extends Fragment {
 
     private OnListFragmentInteractionListener mListener;
     private MyAppListRecyclerViewAdapter _adapter;
     private int _color;
-
-    private FastScrollerView fastScrollerView;
-    private FastScrollerThumbView fastScrollerThumbView;
 
     public static AppListFragment newInstance(int color) {
         AppListFragment fragment = new AppListFragment();
@@ -48,18 +44,19 @@ public class AppListFragment extends Fragment implements AppListFragmentManager 
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_applist_list, container, false);
         RecyclerView recyclerView = view.findViewById(R.id.ApplicationList);
 
-        fastScrollerView = view.findViewById(R.id.fastscroller);
-        fastScrollerThumbView = view.findViewById(R.id.fastscroller_thumb);
+        FastScrollerView fastScrollerView = view.findViewById(R.id.fastscroller);
+        FastScrollerThumbView fastScrollerThumbView = view.findViewById(R.id.fastscroller_thumb);
 
         final SwipeRefreshLayout refreshLayout = view.findViewById(R.id.swipeApplicationList);
         refreshLayout.setColorSchemeColors(Color.BLACK);
         refreshLayout.setOnRefreshListener(() -> {
-            mListener.onSwipeRefreshAppList();
+            refreshLayout.setRefreshing(true);
+            ApplicationContent.fillItemList();
+            _adapter.notifyDataSetChanged();
             refreshLayout.setRefreshing(false);
         });
 
@@ -73,8 +70,8 @@ public class AppListFragment extends Fragment implements AppListFragmentManager 
                 }
         );
         fastScrollerThumbView.setupWithFastScroller(fastScrollerView);
-
-        updateColor(_color);
+        fastScrollerView.setTextColor(ColorStateList.valueOf(_color));
+        fastScrollerThumbView.setThumbColor(ColorStateList.valueOf(_color));
 
         return view;
     }
@@ -92,25 +89,9 @@ public class AppListFragment extends Fragment implements AppListFragmentManager 
         mListener = null;
     }
 
-    @Override
-    public void updateAdapter() {
-        ApplicationContent.fillItemList();
-        _adapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void updateColor(int color) {
-        _color = color;
-        if (fastScrollerView != null) {
-            fastScrollerView.setTextColor(ColorStateList.valueOf(_color));
-            fastScrollerThumbView.setThumbColor(ColorStateList.valueOf(_color));
-        }
-    }
-
     public interface OnListFragmentInteractionListener {
         void onClickListener(AppItem item);
         void onLongClickListener(AppItem item);
-        void onSwipeRefreshAppList();
     }
 
 }

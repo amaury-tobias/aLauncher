@@ -9,30 +9,30 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Switch;
 
+import java.util.Objects;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import me.amaurytq.alauncher.R;
 
+import static android.content.Context.MODE_PRIVATE;
+
 public class SettingsFragment extends Fragment {
 
-    public static final int SETTINGS_AUTO_THEME = 5501;
-    public static final int SETTINGS_WALLPAPER = 5502;
-    public static final int SETTINGS_COLOR_H = 5503;
-    public static final int SETTINGS_COLOR_B = 5504;
+    public static final String THEME = "THEME";
 
-    public static final String AUTO_THEME = "AUTO_THEME";
     private static final String COLOR_H = "COLOR_H";
     private static final String COLOR_B = "COLOR_B";
 
     private OnSettingsFragmentInteractionListener mListener;
-    private boolean _autoTheme;
-    private int _colorH;
-    private int _colorB;
 
-    public static SettingsFragment newInstance(boolean autoTheme, int colorH, int colorB){
+    private int _theme;
+    private int _colorH;
+
+    public static SettingsFragment newInstance(int theme, int colorH, int colorB){
         SettingsFragment fragment = new SettingsFragment();
         Bundle args = new Bundle();
-        args.putBoolean(AUTO_THEME, autoTheme);
+        args.putInt(THEME, theme);
         args.putInt(COLOR_H, colorH);
         args.putInt(COLOR_B, colorB);
         fragment.setArguments(args);
@@ -43,33 +43,35 @@ public class SettingsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            _autoTheme = getArguments().getBoolean(AUTO_THEME);
+            _theme = getArguments().getInt(THEME);
             _colorH = getArguments().getInt(COLOR_H);
-            _colorB = getArguments().getInt(COLOR_B);
         }
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View fragment = inflater.inflate(R.layout.fragment_settings, container, false);
 
-        fragment.findViewById(R.id.switch_auto_theme).setOnClickListener(v -> {
-            _autoTheme = !_autoTheme;
-            mListener.onSettingsClickListener(SETTINGS_AUTO_THEME, _autoTheme);
-        });
-        fragment.findViewById(R.id.settingWallpaper).setOnClickListener(v -> mListener.onSettingsClickListener(SETTINGS_WALLPAPER));
-        fragment.findViewById(R.id.settingColorH).setOnClickListener(v -> mListener.onSettingsClickListener(SETTINGS_COLOR_H));
-        fragment.findViewById(R.id.settingColorB).setOnClickListener(v -> mListener.onSettingsClickListener(SETTINGS_COLOR_B));
+        fragment.findViewById(R.id.switch_theme).setOnClickListener(v -> setTheme());
+        fragment.findViewById(R.id.auto_color).setOnClickListener(v -> mListener.autoColor());
+        fragment.findViewById(R.id.settingWallpaper).setOnClickListener(v -> mListener.setWallpaper());
+        fragment.findViewById(R.id.settingColorH).setOnClickListener(v -> mListener.pickColor(_colorH));
 
-        ((Switch) fragment.findViewById(R.id.switch_auto_theme)).setChecked(_autoTheme);
+        ((Switch) fragment.findViewById(R.id.switch_theme)).setChecked(_theme == 0);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            ((Switch) fragment.findViewById(R.id.switch_auto_theme)).setThumbTintList(ColorStateList.valueOf(_colorH));
+            ((Switch) fragment.findViewById(R.id.switch_theme)).setThumbTintList(ColorStateList.valueOf(_colorH));
         }
         fragment.findViewById(R.id.color_1).setBackgroundColor(_colorH);
-        fragment.findViewById(R.id.color_2).setBackgroundColor(_colorB);
 
         return fragment;
+    }
+
+    private void setTheme() {
+        if (_theme == 0) _theme = 1;
+        else _theme = 0;
+        Objects.requireNonNull(getActivity())
+                .getSharedPreferences("prefs", MODE_PRIVATE)
+                .edit().putInt(THEME, _theme).apply();
     }
 
     @Override
@@ -84,8 +86,9 @@ public class SettingsFragment extends Fragment {
         super.onDetach();
         mListener = null;
     }
-
     public interface OnSettingsFragmentInteractionListener {
-        void onSettingsClickListener(int option, Object... args);
+        void setWallpaper();
+        void pickColor(int color);
+        void autoColor();
     }
 }

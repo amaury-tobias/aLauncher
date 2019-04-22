@@ -31,7 +31,6 @@
             android:fontFamily="sans-serif-light"
             android:format12Hour="h:mm"
             android:format24Hour="H:mm"
-            android:textColor="@color/colorTextLauncher"
             android:textSize="45sp"
             tools:text="14:30" />
 
@@ -43,7 +42,6 @@
             android:format12Hour="EE dd"
             android:format24Hour="EE dd"
             android:textAllCaps="true"
-            android:textColor="@color/colorTextLauncher"
             android:textSize="30sp"
             tools:text="DOM 17" />
     </LinearLayout>

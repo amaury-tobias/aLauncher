@@ -33,7 +33,6 @@
         android:id="@+id/fastscroller"
         android:layout_width="32dp"
         android:layout_height="match_parent"
-        android:textColor="@color/colorTextLauncher"
 
         app:layout_constraintEnd_toEndOf="parent" />
 
