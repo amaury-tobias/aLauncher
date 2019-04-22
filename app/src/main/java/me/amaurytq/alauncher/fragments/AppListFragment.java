@@ -21,7 +21,7 @@ import me.amaurytq.alauncher.R;
 import me.amaurytq.alauncher.database.models.AppItem;
 import me.amaurytq.alauncher.fragments.content.ApplicationContent;
 
-public class AppListFragment extends Fragment {
+public class AppListFragment extends Fragment implements ApplicationContent.OnApplicationContentInteractionListener {
 
     private OnListFragmentInteractionListener mListener;
     private MyAppListRecyclerViewAdapter _adapter;
@@ -81,12 +81,19 @@ public class AppListFragment extends Fragment {
         super.onAttach(context);
         if (context instanceof OnListFragmentInteractionListener)
             mListener = (OnListFragmentInteractionListener) context;
+        ApplicationContent.setListener(this);
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
+        ApplicationContent.setListener(null);
+    }
+
+    @Override
+    public void notifyUpdated() {
+        _adapter.notifyDataSetChanged();
     }
 
     public interface OnListFragmentInteractionListener {

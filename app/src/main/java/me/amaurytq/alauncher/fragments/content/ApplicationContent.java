@@ -15,6 +15,7 @@ public class ApplicationContent {
 
     public static final List<AppItem> ITEMS = new ArrayList<>();
     private static PackageManager _packageManager;
+    private static OnApplicationContentInteractionListener mListener;
 
     public static void setPackageManager(Context context) {
         _packageManager = context.getPackageManager();
@@ -61,8 +62,9 @@ public class ApplicationContent {
                 addItem(appItem);
             }
         }
-
+        if (mListener != null) mListener.notifyUpdated();
         sortItemList();
+
     }
 
     private static void sortItemList() {
@@ -78,4 +80,11 @@ public class ApplicationContent {
         ITEMS.add(appItem);
     }
 
+    public static void setListener(OnApplicationContentInteractionListener listener) {
+        mListener = listener;
+    }
+
+    public interface OnApplicationContentInteractionListener {
+        void notifyUpdated();
+    }
 }

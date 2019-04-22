@@ -183,7 +183,6 @@ public class MainActivity extends AppCompatActivity implements
                 getColorsFromBackground();
                 break;
         }
-
     }
 
     @Override

@@ -18,8 +18,10 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import me.amaurytq.alauncher.R;
 import me.amaurytq.alauncher.database.models.AppItem;
+import me.amaurytq.alauncher.fragments.content.ApplicationContent;
 
 public class AppItemInfoFragment extends DialogFragment {
+    private static final int RESULT_UNINSTALLED = 1234;
 
     public static AppItemInfoFragment newInstance(AppItem appItem) {
         AppItemInfoFragment fragment = new AppItemInfoFragment();
@@ -53,7 +55,7 @@ public class AppItemInfoFragment extends DialogFragment {
             dialog.findViewById(R.id.uninstall_option).setOnClickListener(v -> {
                 Uri packageUri = Uri.parse("package:".concat(_appItem.packageName));
                 Intent uninstallIntent = new Intent(Intent.ACTION_UNINSTALL_PACKAGE, packageUri);
-                startActivity(uninstallIntent);
+                startActivityForResult(uninstallIntent, RESULT_UNINSTALLED);
             });
         }
         dialog.findViewById(R.id.app_info_button).setOnClickListener(v -> {
@@ -63,5 +65,16 @@ public class AppItemInfoFragment extends DialogFragment {
             startActivity(i);
         });
         return dialog;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case RESULT_UNINSTALLED:
+                ApplicationContent.fillItemList();
+                dismiss();
+                break;
+        }
     }
 }
