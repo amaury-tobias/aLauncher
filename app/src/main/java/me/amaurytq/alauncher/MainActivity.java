@@ -21,6 +21,7 @@ import android.widget.TextClock;
 
 import com.getkeepsafe.taptargetview.TapTarget;
 import com.getkeepsafe.taptargetview.TapTargetView;
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -31,10 +32,9 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.palette.graphics.Palette;
 import me.amaurytq.alauncher.database.models.AppItem;
-import me.amaurytq.alauncher.fragments.AppItemInfoFragment;
+import me.amaurytq.alauncher.fragments.AppInfoDialogFragment;
 import me.amaurytq.alauncher.fragments.AppListFragment;
 import me.amaurytq.alauncher.fragments.SettingsFragment;
-import me.amaurytq.alauncher.fragments.content.ApplicationContent;
 import me.amaurytq.alauncher.utils.OnSwipeTouchListener;
 import me.amaurytq.alauncher.utils.PrefManager;
 import me.priyesh.chroma.ChromaDialog;
@@ -43,7 +43,8 @@ import me.priyesh.chroma.ColorMode;
 public class MainActivity extends AppCompatActivity implements
         SettingsFragment.OnSettingsFragmentInteractionListener,
         AppListFragment.OnListFragmentInteractionListener,
-        SharedPreferences.OnSharedPreferenceChangeListener{
+        SharedPreferences.OnSharedPreferenceChangeListener,
+        AppInfoDialogFragment.AppInfoListener {
 
     private TextClock tcMonth;
     private SharedPreferences sharedPreferences;
@@ -53,12 +54,6 @@ public class MainActivity extends AppCompatActivity implements
 
     private static final int RESULT_SELECT_WALLPAPER = 222;
     private static final int RESULT_SET_WALLPAPER = 444;
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        //viewModel.refreshApps();
-    }
 
     private void changeFragment(Fragment newFragment, String tag) {
         FragmentManager fm = getSupportFragmentManager();
@@ -118,8 +113,8 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     private void initialize() {
-        ApplicationContent.setPackageManager(this);
-        ApplicationContent.fillItemList();
+
+
 
         tcMonth = findViewById(R.id.tcMonth);
         tcMonth.setTextColor(sharedPreferences.getInt("color", Color.WHITE));
@@ -162,13 +157,17 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onLongClickListener(AppItem item) {
-        Vibrator vibrator = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
-        vibrator.vibrate(100);
-        AppItemInfoFragment.newInstance(item).show(getSupportFragmentManager(), "infoAppItem");
+    public boolean onLongClickListener(AppItem item) {
+        String APP_INFO_TAG = "me.amaurytq.me.AppItemInfo";
+        ((Vibrator) getApplicationContext()
+                .getSystemService(Context.VIBRATOR_SERVICE))
+                .vibrate(100);
+        BottomSheetDialogFragment bsdFragment =
+                AppInfoDialogFragment.newInstance(item);
+
+        bsdFragment.show(getSupportFragmentManager(), APP_INFO_TAG);
+        return true;
     }
-
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -279,4 +278,15 @@ public class MainActivity extends AppCompatActivity implements
         } else getColorsFromBackground();
     }
 
+    @Override
+    public void onAppInfoClicked(int position) {
+
+    }
+
+    @Override
+    public void uninstall(AppItem mAppitem) {
+        Uri packageURI = Uri.parse("package:".concat(mAppitem.packageName));
+        Intent uninstallIntent = new Intent(Intent.ACTION_DELETE, packageURI);
+        startActivity(uninstallIntent);
+    }
 }
