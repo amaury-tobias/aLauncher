@@ -2,30 +2,36 @@ package me.amaurytq.alauncher.fragments;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.reddit.indicatorfastscroll.FastScrollItemIndicator;
 import com.reddit.indicatorfastscroll.FastScrollerThumbView;
 import com.reddit.indicatorfastscroll.FastScrollerView;
+
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import me.amaurytq.alauncher.R;
+import me.amaurytq.alauncher.adapters.AppItemListContent;
+import me.amaurytq.alauncher.adapters.AppListAdapter;
 import me.amaurytq.alauncher.database.models.AppItem;
-import me.amaurytq.alauncher.fragments.content.ApplicationContent;
 
-public class AppListFragment extends Fragment implements ApplicationContent.OnApplicationContentInteractionListener {
+public class AppListFragment extends Fragment implements AppListAdapter.AdapterListener {
 
     private OnListFragmentInteractionListener mListener;
-    private MyAppListRecyclerViewAdapter _adapter;
     private int _color;
+
+    private AppItemListContent appItemsContent;
 
     public static AppListFragment newInstance(int color) {
         AppListFragment fragment = new AppListFragment();
@@ -35,43 +41,55 @@ public class AppListFragment extends Fragment implements ApplicationContent.OnAp
         return fragment;
     }
 
+    private AppListAdapter mAppListAdapter;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        appItemsContent = new AppItemListContent(getContext());
+        mAppListAdapter = new AppListAdapter(this, appItemsContent.appItems);
+
         if (getArguments() != null) {
             _color = getArguments().getInt("COLOR");
         }
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        appItemsContent.fillList();
+        mAppListAdapter.notifyDataSetChanged();
+    }
+
+    @BindView(R.id.ApplicationList) RecyclerView mRecyclerView;
+    @BindView(R.id.fastscroller) FastScrollerView mFastScrollerView;
+    @BindView(R.id.fastscroller_thumb) FastScrollerThumbView mFastScrollerThumbView;
+    @BindView(R.id.swipeApplicationList) SwipeRefreshLayout mRefreshLayout;
+
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_applist_list, container, false);
-        RecyclerView recyclerView = view.findViewById(R.id.ApplicationList);
+        ButterKnife.bind(this, view);
 
-        FastScrollerView fastScrollerView = view.findViewById(R.id.fastscroller);
-        FastScrollerThumbView fastScrollerThumbView = view.findViewById(R.id.fastscroller_thumb);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        mRecyclerView.setAdapter(mAppListAdapter);
 
-        final SwipeRefreshLayout refreshLayout = view.findViewById(R.id.swipeApplicationList);
-        refreshLayout.setColorSchemeColors(Color.BLACK);
-        refreshLayout.setOnRefreshListener(() -> {
-            refreshLayout.setRefreshing(true);
-            ApplicationContent.fillItemList();
-            _adapter.notifyDataSetChanged();
-            refreshLayout.setRefreshing(false);
-        });
-
-        _adapter = new MyAppListRecyclerViewAdapter(ApplicationContent.ITEMS, mListener);
-        recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-        recyclerView.setAdapter(_adapter);
-
-        fastScrollerView.setupWithRecyclerView(recyclerView, position -> {
-                    AppItem item = ApplicationContent.ITEMS.get(position);
+        mFastScrollerView.setupWithRecyclerView(mRecyclerView, position -> {
+                    AppItem item = appItemsContent.appItems.get(position);
                     return new FastScrollItemIndicator.Text(item.packageLabel.substring(0, 1).toUpperCase());
                 }
         );
-        fastScrollerThumbView.setupWithFastScroller(fastScrollerView);
-        fastScrollerView.setTextColor(ColorStateList.valueOf(_color));
-        fastScrollerThumbView.setThumbColor(ColorStateList.valueOf(_color));
+
+        mRefreshLayout.setOnRefreshListener(() -> {
+            mRefreshLayout.setRefreshing(true);
+            appItemsContent.fillList();
+            mAppListAdapter.notifyDataSetChanged();
+            mRefreshLayout.setRefreshing(false);
+        });
+
+        mFastScrollerView.setTextColor(ColorStateList.valueOf(_color));
+        mFastScrollerThumbView.setupWithFastScroller(mFastScrollerView);
+        mFastScrollerThumbView.setThumbColor(ColorStateList.valueOf(_color));
 
         return view;
     }
@@ -81,24 +99,27 @@ public class AppListFragment extends Fragment implements ApplicationContent.OnAp
         super.onAttach(context);
         if (context instanceof OnListFragmentInteractionListener)
             mListener = (OnListFragmentInteractionListener) context;
-        ApplicationContent.setListener(this);
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
-        ApplicationContent.setListener(null);
     }
 
     @Override
-    public void notifyUpdated() {
-        _adapter.notifyDataSetChanged();
+    public void onClick(AppItem item) {
+        mListener.onClickListener(item);
+    }
+
+    @Override
+    public boolean onLongClick(AppItem item) {
+        return mListener.onLongClickListener(item);
     }
 
     public interface OnListFragmentInteractionListener {
         void onClickListener(AppItem item);
-        void onLongClickListener(AppItem item);
+        boolean onLongClickListener(AppItem item);
     }
 
 }

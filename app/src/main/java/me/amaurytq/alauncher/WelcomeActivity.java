@@ -1,10 +1,10 @@
 package me.amaurytq.alauncher;
 
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class WelcomeActivity extends AppCompatActivity {
 
@@ -12,13 +12,11 @@ public class WelcomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
+        ButterKnife.bind(this);
+    }
 
-        Button btnNext = findViewById(R.id.btn_next);
-        btnNext.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+    @OnClick(R.id.btn_next)
+    public void onNextClick() {
+        finish();
     }
 }

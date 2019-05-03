@@ -7,12 +7,16 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Switch;
 
 import java.util.Objects;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import me.amaurytq.alauncher.R;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -20,7 +24,6 @@ import static android.content.Context.MODE_PRIVATE;
 public class SettingsFragment extends Fragment {
 
     public static final String THEME = "THEME";
-
     private static final String COLOR_H = "COLOR_H";
     private static final String COLOR_B = "COLOR_B";
 
@@ -48,21 +51,38 @@ public class SettingsFragment extends Fragment {
         }
     }
 
+    @OnClick(R.id.switch_theme)
+    void onSwitchThemeClick() {
+        setTheme();
+    }
+
+    @OnClick(R.id.auto_color)
+    void onAutoColorClick() {
+        mListener.autoColor();
+    }
+
+    @OnClick(R.id.settingWallpaper)
+    void onSetWallpaperClick() {
+        mListener.setWallpaper();
+    }
+
+    @OnClick(R.id.settingColorH)
+    void onPickColorClick() {
+        mListener.pickColor(_colorH);
+    }
+
+    @BindView(R.id.switch_theme) Switch mSwitch;
+    @BindView(R.id.color_1) ImageView mImageView;
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View fragment = inflater.inflate(R.layout.fragment_settings, container, false);
-
-        fragment.findViewById(R.id.switch_theme).setOnClickListener(v -> setTheme());
-        fragment.findViewById(R.id.auto_color).setOnClickListener(v -> mListener.autoColor());
-        fragment.findViewById(R.id.settingWallpaper).setOnClickListener(v -> mListener.setWallpaper());
-        fragment.findViewById(R.id.settingColorH).setOnClickListener(v -> mListener.pickColor(_colorH));
-
-        ((Switch) fragment.findViewById(R.id.switch_theme)).setChecked(_theme == 0);
+        ButterKnife.bind(this, fragment);
+        mSwitch.setChecked(_theme == 0);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            ((Switch) fragment.findViewById(R.id.switch_theme)).setThumbTintList(ColorStateList.valueOf(_colorH));
+            mSwitch.setThumbTintList(ColorStateList.valueOf(_colorH));
         }
-        fragment.findViewById(R.id.color_1).setBackgroundColor(_colorH);
-
+        mImageView.setBackgroundColor(_colorH);
         return fragment;
     }
 

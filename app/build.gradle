@@ -31,10 +31,10 @@ dependencies {
     implementation 'com.google.android.material:material:1.1.0-alpha05'
 
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.2.0-alpha03'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0-alpha03'
+    androidTestImplementation 'androidx.test:runner:1.2.0-alpha05'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0-alpha05'
 
-    implementation "androidx.room:room-runtime:2.1.0-alpha06"
+    implementation "androidx.room:room-runtime:2.1.0-alpha07"
     annotationProcessor "android.arch.persistence.room:compiler:2.1.0-alpha06"
 
     implementation 'androidx.palette:palette:1.0.0'
@@ -44,4 +44,7 @@ dependencies {
     implementation 'com.airbnb.android:lottie:3.0.0'
     implementation 'com.reddit:indicator-fast-scroll:1.1.0-beta1'
     implementation 'me.priyesh:chroma:1.0.2'
+
+    implementation 'com.jakewharton:butterknife:10.1.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.1.0'
 }
