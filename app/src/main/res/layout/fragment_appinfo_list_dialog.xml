@@ -9,9 +9,9 @@
     android:clipToPadding="false"
     android:orientation="vertical"
     android:paddingStart="20dp"
-    android:paddingTop="@dimen/list_item_spacing_half"
+    android:paddingTop="10dp"
     android:paddingEnd="20dp"
-    android:paddingBottom="@dimen/list_item_spacing_half"
+    android:paddingBottom="10dp"
     tools:context=".fragments.AppInfoDialogFragment">
 
     <LinearLayout
