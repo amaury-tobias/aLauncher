@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import android.os.Build;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -30,25 +29,20 @@ public class AppItemListContent {
     private List<AppItem> getAppItems() {
         List<AppItem> items = new ArrayList<>();
         PackageManager packageManager = context.getPackageManager();
-
         Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
         mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
         List<ResolveInfo> pkgAppsList = packageManager.queryIntentActivities( mainIntent, 0);
+        Collections.sort(pkgAppsList, new ResolveInfo.DisplayNameComparator(packageManager));
+
         for (ResolveInfo resolveInfo: pkgAppsList) {
             AppItem item = new AppItem();
             item.isHidden = false;
-            item.packageLabel = (String) resolveInfo.loadLabel(packageManager);
+            item.packageLabel = resolveInfo.loadLabel(packageManager).toString();
             item.packageName = resolveInfo.activityInfo.packageName;
             item.isSystemApp = ((resolveInfo.activityInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0);
             items.add(item);
         }
 
-        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.N){
-            items.sort((o1, o2) -> o1.packageName.toUpperCase().compareTo(o2.packageLabel.toUpperCase()));
-        }
-        else {
-            Collections.sort(items, (o1, o2) -> o1.packageLabel.toUpperCase().compareTo(o2.packageLabel.toUpperCase()));
-        }
         return items;
     }
 }

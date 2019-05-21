@@ -1,18 +1,24 @@
 package me.amaurytq.alauncher.fragments;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.reddit.indicatorfastscroll.FastScrollItemIndicator;
 import com.reddit.indicatorfastscroll.FastScrollerThumbView;
 import com.reddit.indicatorfastscroll.FastScrollerView;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -41,6 +47,25 @@ public class AppListFragment extends Fragment implements AppListAdapter.AdapterL
         return fragment;
     }
 
+    private List<AppItem> getAppList() {
+        List<AppItem> items = new ArrayList<>();
+        PackageManager packageManager = Objects.requireNonNull(getActivity()).getPackageManager();
+        Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
+        mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+        List<ResolveInfo> pkgAppsList = packageManager.queryIntentActivities( mainIntent, 0);
+        Collections.sort(pkgAppsList, new ResolveInfo.DisplayNameComparator(packageManager));
+
+        for (ResolveInfo resolveInfo: pkgAppsList) {
+            AppItem item = new AppItem();
+            item.isHidden = false;
+            item.packageLabel = resolveInfo.loadLabel(packageManager).toString();
+            item.packageName = resolveInfo.activityInfo.packageName;
+            item.isSystemApp = ((resolveInfo.activityInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0);
+            items.add(item);
+        }
+        return items;
+    }
+
     private AppListAdapter mAppListAdapter;
 
     @Override
@@ -64,7 +89,6 @@ public class AppListFragment extends Fragment implements AppListAdapter.AdapterL
     @BindView(R.id.ApplicationList) RecyclerView mRecyclerView;
     @BindView(R.id.fastscroller) FastScrollerView mFastScrollerView;
     @BindView(R.id.fastscroller_thumb) FastScrollerThumbView mFastScrollerThumbView;
-    @BindView(R.id.swipeApplicationList) SwipeRefreshLayout mRefreshLayout;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -79,13 +103,6 @@ public class AppListFragment extends Fragment implements AppListAdapter.AdapterL
                     return new FastScrollItemIndicator.Text(item.packageLabel.substring(0, 1).toUpperCase());
                 }
         );
-
-        mRefreshLayout.setOnRefreshListener(() -> {
-            mRefreshLayout.setRefreshing(true);
-            appItemsContent.fillList();
-            mAppListAdapter.notifyDataSetChanged();
-            mRefreshLayout.setRefreshing(false);
-        });
 
         mFastScrollerView.setTextColor(ColorStateList.valueOf(_color));
         mFastScrollerThumbView.setupWithFastScroller(mFastScrollerView);

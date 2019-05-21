@@ -40,64 +40,33 @@
             app:srcCompat="@drawable/ic_info_outline_white" />
     </LinearLayout>
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/textView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="8dp">
-
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="3"
-            android:fontFamily="sans-serif-light"
-            android:text="Ocultar (WIP)"
-            android:textAlignment="textStart"
-            android:textSize="20sp" />
-
-
-    </LinearLayout>
-
-    <LinearLayout
+        android:fontFamily="sans-serif-light"
+        android:text="Ocultar (WIP)"
+        android:textAlignment="textStart"
+        android:textSize="20sp"
+        android:padding="10dp"/>
+    <TextView
+        android:id="@+id/textView3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:padding="8dp">
+        android:fontFamily="sans-serif-light"
+        android:text="Renombrar (WIP)"
+        android:textAlignment="textStart"
+        android:textSize="20sp"
+        android:padding="10dp"/>
 
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="3"
-            android:fontFamily="sans-serif-light"
-            android:text="Renombrar (WIP)"
-            android:textAlignment="textStart"
-            android:textSize="20sp"
-            tools:layout_editor_absoluteX="20dp"
-            tools:layout_editor_absoluteY="20dp" />
-
-    </LinearLayout>
-
-    <LinearLayout
+    <TextView
         android:id="@+id/uninstall_option"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="8dp"
-        android:visibility="gone">
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="3"
-            android:fontFamily="sans-serif-light"
-            android:text="Desinstalar"
-            android:textAlignment="textStart"
-            android:textSize="20sp" />
-
-    </LinearLayout>
-
+        android:fontFamily="sans-serif-light"
+        android:text="Desinstalar"
+        android:textAlignment="textStart"
+        android:visibility="gone"
+        android:textSize="20sp"
+        android:padding="10dp"/>
 </LinearLayout>

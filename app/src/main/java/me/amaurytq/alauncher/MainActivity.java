@@ -43,8 +43,7 @@ import me.priyesh.chroma.ColorMode;
 public class MainActivity extends AppCompatActivity implements
         SettingsFragment.OnSettingsFragmentInteractionListener,
         AppListFragment.OnListFragmentInteractionListener,
-        SharedPreferences.OnSharedPreferenceChangeListener,
-        AppInfoDialogFragment.AppInfoListener {
+        SharedPreferences.OnSharedPreferenceChangeListener {
 
     private TextClock tcMonth;
     private SharedPreferences sharedPreferences;
@@ -278,15 +277,4 @@ public class MainActivity extends AppCompatActivity implements
         } else getColorsFromBackground();
     }
 
-    @Override
-    public void onAppInfoClicked(int position) {
-
-    }
-
-    @Override
-    public void uninstall(AppItem mAppitem) {
-        Uri packageURI = Uri.parse("package:".concat(mAppitem.packageName));
-        Intent uninstallIntent = new Intent(Intent.ACTION_DELETE, packageURI);
-        startActivity(uninstallIntent);
-    }
 }
